@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Villa Lorem — AlUla</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#FEFCF8;color:#1C1C1E;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ===== NAVBAR ===== */
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:0 64px;height:72px;width:1440px;position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:100;background:rgba(254,252,248,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(212,197,169,0.3);transition:all .4s cubic-bezier(.16,1,.3,1)}
+.navbar.scrolled{height:60px;background:rgba(254,252,248,0.97)}
+.navbar.transparent{background:transparent;border-bottom:1px solid rgba(255,255,255,0.06)}
+.navbar.transparent .nav-logo-main{color:#fff}
+.navbar.transparent .nav-links a{color:rgba(255,255,255,0.6)}
+.navbar.transparent .nav-links a:hover{color:#fff}
+.navbar.transparent .nav-lang{color:rgba(255,255,255,0.4)}
+.navbar.transparent .nav-cta{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff}
+.nav-logo{display:flex;align-items:center;gap:0}
+.nav-logo-main{font-size:13px;font-weight:700;letter-spacing:5px;color:#1C1C1E;transition:color .3s}
+.nav-logo-accent{font-size:13px;font-weight:500;letter-spacing:5px;color:#C4956A;margin-left:8px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:12px;font-weight:500;letter-spacing:0.5px;color:#8A8578;text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:#1C1C1E}
+.nav-right{display:flex;align-items:center;gap:24px}
+.nav-lang{font-size:11px;font-weight:500;letter-spacing:1px;color:#8A8578}
+.nav-cta{padding:8px 20px;border-radius:8px;background:#1C1C1E;font-size:12px;font-weight:600;letter-spacing:0.5px;color:#FEFCF8;text-decoration:none;border:none;cursor:pointer;transition:all .3s}
+.nav-cta:hover{background:#333;transform:translateY(-1px)}
+
+/* ===== HERO — 120:21 — 1440×920 ===== */
+.hero{width:1440px;height:920px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(172.57deg,#D4C5A9 0%,#C4B08A 25.4%,#B8A07A 55.1%,#A08E6E 84.7%)}
+.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Grid lines */
+.hero-line{position:absolute;top:0;width:1px;height:920px;background:rgba(255,255,255,0.08)}
+/* Title image "HORIZON" */
+.hero-title-wrap{position:absolute;left:50%;top:calc(50% - 39.5px);transform:translate(-50%,-50%);width:690px;height:105px}
+.hero-title-wrap img{width:100%;height:100%;object-fit:cover}
+/* ALULA text */
+.hero-alula{position:absolute;left:822px;top:456px;font-size:72px;font-weight:100;color:#fff;letter-spacing:8px;white-space:nowrap}
+/* Bottom group */
+.hero-accent{position:absolute;left:691px;top:804px;width:60px;height:2px;background:#C4956A;border-radius:1px}
+.hero-location{position:absolute;left:489px;top:821px;font-size:12px;font-weight:600;color:#fff;letter-spacing:8px;white-space:pre}
+.hero-scroll{position:absolute;left:675px;top:850px;font-size:12px;font-weight:500;color:#fff;letter-spacing:2px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ===== TRANSITION + PHOTOS — 120:39 — 1440×1030 ===== */
+.transition-section{width:1440px;position:relative;display:flex;flex-direction:column;align-items:center;padding:160px 240px;gap:48px;background:#FAF7F2}
+.line-deco{width:60px;height:2px;border-radius:1px;flex-shrink:0}
+.line-terracotta{background:#C4956A}
+.line-sand{background:#D4C5A9}
+.transition-section h2{font-size:36px;font-weight:600;line-height:44px;letter-spacing:-1.5px;text-align:center;color:#1C1C1E;width:748px}
+/* Photos row */
+.photos-row{display:flex;gap:24px;justify-content:center;width:1418px;overflow:hidden}
+.photo-card{border-radius:12px;overflow:hidden;position:relative;box-shadow:0 8px 24px -4px rgba(0,0,0,0.1);flex-shrink:0;width:560px;height:380px}
+.photo-card img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-card span{position:absolute;bottom:20px;left:24px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.7);letter-spacing:0.5px;z-index:2}
+.photo-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,rgba(28,28,30,0.35));border-radius:12px}
+
+/* ===== CAROUSEL — SCROLL HIJACK ===== */
+.carousel-pin{position:relative;height:500vh;background:#F5F0E8}
+.carousel-sticky{position:sticky;top:0;height:100vh;width:1440px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:#F5F0E8;z-index:10}
+.carousel-label{font-size:11px;font-weight:600;letter-spacing:4px;color:#C4956A;margin-bottom:24px}
+.carousel-viewport{position:relative;width:1440px;height:520px}
+.carousel-card{position:absolute;width:380px;height:480px;background:#fff;border-radius:16px;top:20px;left:50%;margin-left:-190px;box-shadow:0 8px 32px -4px rgba(0,0,0,0.08);transition:all .7s cubic-bezier(.16,1,.3,1);transform-origin:center bottom;overflow:hidden;cursor:pointer}
+.carousel-card .card-illu{width:100%;height:220px;background:#FAF7F2;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.carousel-card .card-body{padding:28px 32px;text-align:center}
+.carousel-card .card-title{font-size:24px;font-weight:600;color:#1C1C1E;letter-spacing:-0.5px;margin-bottom:8px;transition:all .5s}
+.carousel-card .card-sub{font-size:14px;color:#8A8578;line-height:1.6;opacity:0;max-height:0;overflow:hidden;transition:all .5s cubic-bezier(.16,1,.3,1)}
+.carousel-card .card-link{font-size:14px;font-weight:500;color:#C4956A;opacity:0;transform:translateY(10px);transition:all .4s cubic-bezier(.16,1,.3,1);margin-top:16px}
+.carousel-card.active .card-title{font-size:28px}
+.carousel-card.active .card-sub{opacity:1;max-height:60px}
+.carousel-card.active .card-link{opacity:1;transform:translateY(0)}
+/* Abstract shapes inside cards */
+.shape{position:absolute;border-radius:4px;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+
+/* Carousel bottom info */
+.carousel-bottom{display:flex;align-items:center;justify-content:center;gap:40px;margin-top:32px}
+.carousel-counter{font-size:14px;font-weight:600;color:#1C1C1E;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.carousel-counter span{color:#C4956A}
+.carousel-progress-wrap{width:200px;height:2px;background:#E8E0D0;border-radius:1px;overflow:hidden}
+.carousel-progress-bar{height:100%;background:#C4956A;border-radius:1px;transition:width .7s cubic-bezier(.16,1,.3,1)}
+.carousel-dots{display:flex;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:#D4C5A9;opacity:.4;cursor:pointer;transition:all .3s}
+.dot.active{width:10px;height:10px;background:#C4956A;opacity:1}
+
+/* ===== MODULE EDITO — 132:2 — 1440×705 ===== */
+.module-edito{width:1440px;height:705px;display:flex;background:#FAF7F2;position:relative}
+.module-text{flex:1;padding:100px 80px 100px 100px;display:flex;flex-direction:column;gap:40px;overflow:hidden}
+.module-text h2{font-size:48px;font-weight:700;line-height:56px;letter-spacing:-2px;color:#1C1C1E}
+.module-text p{font-size:17px;font-weight:400;line-height:30px;color:rgba(28,28,30,0.75);width:600px}
+.module-img{width:660px;height:705px;flex-shrink:0;overflow:hidden;position:relative}
+.module-img img{width:100%;height:100%;object-fit:cover}
+
+/* ===== QUOTE — 120:83 — 1440×574 ===== */
+.quote-section{width:1440px;height:574px;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:140px 240px;gap:32px;text-align:center}
+.quote-mark{font-size:100px;font-weight:700;color:rgba(196,149,106,0.2);line-height:0.5}
+.quote-section blockquote{font-size:28px;font-weight:400;color:#EDE6D6;line-height:44px;text-align:center}
+.quote-sep{width:40px;height:1px;background:rgba(196,149,106,0.4)}
+.quote-author{font-size:13px;font-weight:600;color:#D4C5A9;letter-spacing:1px}
+.quote-role{font-size:12px;color:#8A8578;margin-top:4px}
+
+/* ===== MAP — 137:2 — 1440×820 ===== */
+.map-section{width:1440px;height:820px;position:relative;overflow:hidden;background:#EDE6D6}
+.map-terrain{position:absolute;inset:0}
+.map-terrain img{width:100%;height:100%;object-fit:cover;filter:sepia(0.2) saturate(0.85) brightness(1.05)}
+.map-edge{position:absolute;inset:0;box-shadow:inset 0 0 120px 60px #EDE6D6;pointer-events:none;z-index:3}
+.map-pin{position:absolute;width:10px;height:10px;border-radius:50%;background:rgba(75,58,90,0.7);border:2px solid rgba(255,255,255,0.6);box-shadow:0 1px 4px rgba(0,0,0,0.15);cursor:pointer;transition:all .3s;z-index:5}
+.map-pin:hover{transform:scale(1.5);background:#C4956A;border-color:#fff;box-shadow:0 0 16px rgba(196,149,106,0.5)}
+.map-pin.active{width:18px;height:18px;background:#C4956A;border:3px solid rgba(255,255,255,0.9);box-shadow:0 0 16px rgba(196,149,106,0.5)}
+.map-label{position:absolute;font-size:10px;font-weight:500;color:rgba(28,28,30,0.6);white-space:nowrap;text-shadow:0 0 4px rgba(255,255,255,0.7);z-index:5;pointer-events:none}
+.map-label.active{font-size:12px;font-weight:600;color:rgba(28,28,30,0.9)}
+.map-city{position:absolute;font-size:18px;font-weight:700;color:rgba(28,28,30,0.45);text-shadow:0 0 6px rgba(255,255,255,0.5);z-index:5}
+.map-tooltip{position:absolute;background:#D4A04A;padding:11px 16px;border-radius:10px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px -2px rgba(0,0,0,0.2);cursor:pointer;z-index:6;transition:transform .3s}
+.map-tooltip:hover{transform:translateY(-2px)}
+.map-tooltip span{font-size:13px;font-weight:600;color:#fff}
+.map-tooltip .plus{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
+.map-left{position:absolute;left:0;top:210px;width:300px;padding:40px 32px 40px 48px;background:rgba(250,247,242,0.88);backdrop-filter:blur(20px);box-shadow:4px 0 16px rgba(0,0,0,0.05);z-index:6}
+.map-left .sub{font-size:18px;font-weight:500;color:#8A8578;font-style:italic;margin-bottom:8px}
+.map-left h3{font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:20px}
+.map-left .sep{width:40px;height:2px;background:#C4956A;margin-bottom:20px}
+.map-left p{font-size:15px;color:#8A8578;line-height:1.6}
+.map-timeline{position:absolute;right:40px;top:260px;width:340px;padding:18px 20px;background:rgba(255,255,255,0.75);backdrop-filter:blur(16px);border-radius:12px;box-shadow:0 4px 12px -2px rgba(0,0,0,0.06);z-index:6}
+.map-timeline .date{font-size:14px;font-weight:700;margin-bottom:12px}
+.tl-dots{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tl-dots .arrow{font-size:18px;font-weight:700;color:#4A3A5A;cursor:pointer;user-select:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#4A3A5A;opacity:.5;cursor:pointer;transition:all .3s}
+.tl-dot.active{width:24px;height:24px;background:rgba(75,58,90,0.08);border:2px solid #4A3A5A;opacity:1;display:flex;align-items:center;justify-content:center}
+.tl-dot.active::after{content:'';width:8px;height:8px;border-radius:50%;background:#4A3A5A}
+.tl-dot.future{opacity:.2;width:7px;height:7px;background:#D4C5A9}
+.tl-progress{height:3px;background:#EDE6D6;border-radius:2px;overflow:hidden}
+.tl-progress-fill{height:100%;width:55%;background:rgba(75,58,90,0.5);border-radius:2px}
+.map-nav{position:absolute;left:24px;bottom:24px;display:flex;align-items:center;gap:8px;z-index:6}
+.map-nav span{font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(75,58,90,0.35)}
+.map-nav button{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.5);border:1px solid rgba(75,58,90,0.15);font-size:14px;color:rgba(75,58,90,0.4);cursor:pointer}
+
+/* ===== NEWSLETTER + FOOTER — 120:90 — 1440×484 ===== */
+.newsletter-footer{width:1440px;background:#F5F0E8;display:flex;flex-direction:column;align-items:center;padding:100px 80px 60px;gap:64px}
+.newsletter{text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px}
+.newsletter .label{font-size:11px;font-weight:600;letter-spacing:4px;color:#C4956A}
+.newsletter h3{font-size:28px;font-weight:700;letter-spacing:-1px}
+.nl-form{display:flex;gap:12px}
+.nl-form input{width:320px;padding:14px 20px;border-radius:8px;border:1px solid rgba(212,197,169,0.4);background:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border .3s}
+.nl-form input::placeholder{color:#8A8578}
+.nl-form input:focus{border-color:#C4956A}
+.nl-form button{padding:14px 28px;border-radius:8px;background:#1C1C1E;color:#EDE6D6;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .3s}
+.nl-form button:hover{background:#333}
+.footer-sep{width:100%;height:1px;background:rgba(212,197,169,0.3)}
+.footer{width:100%;display:flex;justify-content:space-between;align-items:center}
+.footer span{font-size:12px;color:#8A8578}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-size:12px;font-weight:500;color:#8A8578;text-decoration:none}
+.footer-links a:hover{color:#1C1C1E}
+
+/* ===== WRAPPER ===== */
+.page{width:1440px;margin:0 auto}
+
+/* ===== PARALLAX & REVEAL ===== */
+.reveal{opacity:0;transform:translateY(60px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Staggered children */
+.reveal-children>*{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.reveal-children.visible>*{opacity:1;transform:translateY(0)}
+.reveal-children.visible>*:nth-child(1){transition-delay:0s}
+.reveal-children.visible>*:nth-child(2){transition-delay:.12s}
+.reveal-children.visible>*:nth-child(3){transition-delay:.24s}
+.reveal-children.visible>*:nth-child(4){transition-delay:.36s}
+.reveal-children.visible>*:nth-child(5){transition-delay:.48s}
+
+/* Fade up from left */
+.reveal-left{opacity:0;transform:translateX(-60px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+
+/* Fade up from right */
+.reveal-right{opacity:0;transform:translateX(60px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+
+/* Scale in */
+.reveal-scale{opacity:0;transform:scale(0.92);transition:all 1.2s cubic-bezier(.16,1,.3,1)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+
+/* Parallax image container */
+.parallax-img{overflow:hidden}
+.parallax-img img{transition:transform .1s linear;will-change:transform}
+
+/* Hero parallax layers */
+.hero-bg img{will-change:transform;transition:transform .1s linear}
+.hero-title-wrap{will-change:transform;transition:transform .1s linear}
+.hero-alula{will-change:transform;transition:transform .1s linear}
+
+/* Smooth line drawing */
+.line-deco{transform:scaleX(0);transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible .line-deco,.reveal-children.visible .line-deco{transform:scaleX(1)}
+
+/* Photo hover parallax */
+.photo-card{overflow:hidden}
+.photo-card img{transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.photo-card:hover img{transform:scale(1.05)}
+
+/* Map section parallax */
+.map-terrain img{will-change:transform;transition:transform .1s linear}
+
+/* Quote fade */
+.quote-section .quote-mark{opacity:0;transform:translateY(20px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+.quote-section blockquote{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.16,1,.3,1) .2s}
+.quote-section .quote-sep{transform:scaleX(0);transition:transform .6s cubic-bezier(.16,1,.3,1) .5s}
+.quote-section .quote-author{opacity:0;transition:opacity .6s ease .6s}
+.quote-section .quote-role{opacity:0;transition:opacity .6s ease .7s}
+.quote-section.visible .quote-mark{opacity:1;transform:translateY(0)}
+.quote-section.visible blockquote{opacity:1;transform:translateY(0)}
+.quote-section.visible .quote-sep{transform:scaleX(1)}
+.quote-section.visible .quote-author{opacity:1}
+.quote-section.visible .quote-role{opacity:1}
+
+/* Carousel entrance */
+.carousel-section .carousel-viewport{opacity:0;transform:translateY(40px) scale(0.96);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.carousel-section.visible .carousel-viewport{opacity:1;transform:translateY(0) scale(1)}
+.carousel-section .carousel-info{opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.16,1,.3,1) .3s}
+.carousel-section.visible .carousel-info{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <span class="nav-logo-main">VILLA</span>
+    <span class="nav-logo-accent">LOREM</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#rubriques">Grand Format</a></li>
+    <li><a href="#rubriques">Focus</a></li>
+    <li><a href="#rubriques">Témoignages</a></li>
+    <li><a href="#map">Le Regard de</a></li>
+    <li><a href="#map">Les Brèves</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-lang">FR / EN</span>
+    <a href="#newsletter" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO — exact 1440×920 -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://www.figma.com/api/mcp/asset/24140148-b904-455b-8dea-fdd800c68d8e" alt="AlUla canyon">
+  </div>
+  <div class="hero-line" style="left:288px"></div>
+  <div class="hero-line" style="left:504px"></div>
+  <div class="hero-line" style="left:720px"></div>
+  <div class="hero-line" style="left:936px"></div>
+  <div class="hero-line" style="left:1152px"></div>
+  <div class="hero-title-wrap">
+    <img src="https://www.figma.com/api/mcp/asset/a45fc4eb-71e9-4677-9b8f-b1421f931099" alt="HORIZON">
+  </div>
+  <p class="hero-alula">ALULA</p>
+  <div class="hero-accent"></div>
+  <p class="hero-location">A L U L A  ·  S A U D I  A R A B I A</p>
+  <p class="hero-scroll">Découvrir ↓</p>
+</section>
+
+<!-- TRANSITION + PHOTOS -->
+<section class="transition-section reveal reveal-children">
+  <div class="line-deco line-terracotta"></div>
+  <h2>Née de l'amitié entre l'Arabie saoudite et la France, la Villa Hegra est une institution dédiée à la coopération interculturelle.</h2>
+  <div class="line-deco line-sand"></div>
+  <div class="photos-row">
+    <div class="photo-card parallax-img reveal-left">
+      <img src="https://www.figma.com/api/mcp/asset/04b65053-4fa8-4a64-acc8-43daf3a0d356" alt="Hegra UNESCO">
+      <span>Hegra, site classé UNESCO</span>
+    </div>
+    <div class="photo-card parallax-img reveal-right">
+      <img src="https://www.figma.com/api/mcp/asset/1c37a8d3-f31e-42ed-9a97-ee781ec16571" alt="Maraya">
+      <span>Maraya, miroir du désert</span>
+    </div>
+  </div>
+  <div class="line-deco line-terracotta"></div>
+</section>
+
+<!-- CAROUSEL RUBRIQUES — SCROLL HIJACK -->
+<section class="carousel-pin" id="rubriques">
+  <div class="carousel-sticky">
+    <div class="carousel-label">RUBRIQUES</div>
+    <div class="carousel-viewport" id="carouselViewport">
+      <!-- Cards injected by JS -->
+    </div>
+    <div class="carousel-bottom">
+      <div class="carousel-counter"><span id="carCount">01</span> / 05</div>
+      <div class="carousel-progress-wrap"><div class="carousel-progress-bar" id="carProgress" style="width:20%"></div></div>
+      <div class="carousel-dots" id="cDots">
+        <div class="dot active" data-i="0"></div>
+        <div class="dot" data-i="1"></div>
+        <div class="dot" data-i="2"></div>
+        <div class="dot" data-i="3"></div>
+        <div class="dot" data-i="4"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE EDITO -->
+<section class="module-edito">
+  <div class="module-text reveal-left">
+    <h2>EN OCTOBRE<br>2025</h2>
+    <p>La Villa Hegra a ouvert ses portes au cœur d'AlUla. Ce lieu, issu de la rénovation de deux bâtiments existants, constitue le centre de sa programmation artistique et culturelle, offrant un espace de rencontre, d'échange et d'expression créative pour les artistes et le public.</p>
+    <p>Le site de la Villa Hegra accueille des résidences d'artistes, une salle d'exposition, des espaces d'ateliers pédagogiques, le premier studio d'arts performatifs d'AlUla ainsi qu'un auditorium qui constituera le premier cinéma couvert de la région.</p>
+  </div>
+  <div class="module-img parallax-img reveal-right">
+    <img src="https://www.figma.com/api/mcp/asset/703ec37e-c679-42a2-aa28-37c5944da150" alt="Villa Hegra">
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section reveal" id="quote">
+  <div class="quote-mark">"</div>
+  <blockquote>AlUla n'est pas une destination.<br>C'est une émotion qui se vit, un récit<br>qui se découvre pas à pas.</blockquote>
+  <div class="quote-sep"></div>
+  <div class="quote-author">Mohammed Al-Otaibi</div>
+  <div class="quote-role">Directeur artistique, Royal Commission for AlUla</div>
+</section>
+
+<!-- MAP -->
+<section class="map-section reveal-scale" id="map">
+  <div class="map-terrain">
+    <img src="https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=1600&q=80" alt="Desert terrain">
+  </div>
+  <div class="map-edge"></div>
+  <div class="map-pin" style="left:43%;top:27%"></div><div class="map-label" style="left:44.5%;top:25.5%">Hegra</div>
+  <div class="map-pin" style="left:49%;top:24%"></div><div class="map-label" style="left:50.5%;top:22.5%">Al Hijr</div>
+  <div class="map-pin" style="left:45%;top:37%"></div><div class="map-label" style="left:46.5%;top:35.5%">Dhar</div>
+  <div class="map-pin" style="left:46%;top:43%"></div><div class="map-label" style="left:47.5%;top:41.5%">AlJadidah</div>
+  <div class="map-pin" style="left:40%;top:47%"></div><div class="map-label" style="left:41.5%;top:45.5%">Belvédère</div>
+  <div class="map-pin" style="left:52%;top:39%"></div><div class="map-label" style="left:53.5%;top:37.5%">Al Atheeb</div>
+  <div class="map-pin" style="left:57%;top:43%"></div><div class="map-label" style="left:58.5%;top:41.5%">Elephant Rock</div>
+  <div class="map-pin" style="left:59%;top:52%"></div><div class="map-label" style="left:60.5%;top:50.5%">Mughayra</div>
+  <div class="map-pin active" style="left:41%;top:38%"></div><div class="map-label active" style="left:42.8%;top:36%">Villa Hegra</div>
+  <div class="map-city" style="left:47%;top:51%">AlUla</div>
+  <div class="map-tooltip" style="left:21%;top:37%">
+    <span>Inauguration de la Villa Hegra</span>
+    <div class="plus">+</div>
+  </div>
+  <div class="map-left">
+    <div class="sub">La carte</div>
+    <h3>AU FIL<br>DES MOIS</h3>
+    <div class="sep"></div>
+    <p>Ces projets hors normes qui ambitionnent de faire d'AlUla une capitale culturelle mondiale.</p>
+  </div>
+  <div class="map-timeline">
+    <div class="date">Octobre 2025</div>
+    <div class="tl-dots">
+      <span class="arrow">‹</span>
+      <div class="tl-dot"></div>
+      <div class="tl-dot"></div>
+      <div class="tl-dot"></div>
+      <div class="tl-dot active"></div>
+      <div class="tl-dot future"></div>
+      <div class="tl-dot future"></div>
+      <div class="tl-dot future"></div>
+      <span class="arrow">›</span>
+    </div>
+    <div class="tl-progress"><div class="tl-progress-fill"></div></div>
+  </div>
+  <div class="map-nav"><span>NAVIGATION</span><button>+</button></div>
+</section>
+
+<!-- NEWSLETTER + FOOTER -->
+<section class="newsletter-footer reveal" id="newsletter">
+  <div class="newsletter">
+    <div class="label">NEWSLETTER</div>
+    <h3>Recevez nos récits, chaque mois</h3>
+    <form class="nl-form" onsubmit="return false">
+      <input type="email" placeholder="votre@email.com">
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+  <div class="footer-sep"></div>
+  <div class="footer">
+    <span>© 2026 Villa Lorem — Tous droits réservés</span>
+    <div class="footer-links">
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+      <a href="#">Crédits</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Navbar scroll + transparent on hero
+const navbar=document.getElementById('navbar');
+const hero=document.querySelector('.hero');
+function updateNavbar(){
+  const scrollY=window.scrollY;
+  const heroH=hero.offsetHeight;
+  navbar.classList.toggle('scrolled',scrollY>50);
+  navbar.classList.toggle('transparent',scrollY<heroH-100);
+}
+window.addEventListener('scroll',updateNavbar);
+updateNavbar();
+
+// Reveal — all animated elements
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal,.reveal-children,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>obs.observe(el));
+
+// Parallax on scroll
+function parallax(){
+  const scrollY=window.scrollY;
+  const vh=window.innerHeight;
+
+  // Hero layers — different speeds
+  const heroBg=document.querySelector('.hero-bg img');
+  const heroTitle=document.querySelector('.hero-title-wrap');
+  const heroAlula=document.querySelector('.hero-alula');
+  if(heroBg) heroBg.style.transform=`translateY(${scrollY*0.35}px)`;
+  if(heroTitle) heroTitle.style.transform=`translate(-50%,-50%) translateY(${scrollY*-0.15}px)`;
+  if(heroAlula) heroAlula.style.transform=`translateY(${scrollY*-0.1}px)`;
+
+  // Parallax images — subtle vertical shift
+  document.querySelectorAll('.parallax-img img').forEach(img=>{
+    const rect=img.parentElement.getBoundingClientRect();
+    const center=rect.top+rect.height/2;
+    const offset=(center-vh/2)/vh;
+    img.style.transform=`translateY(${offset*-30}px) scale(1.08)`;
+  });
+
+  // Map terrain parallax
+  const mapImg=document.querySelector('.map-terrain img');
+  if(mapImg){
+    const mapRect=document.querySelector('.map-section').getBoundingClientRect();
+    const mapOffset=(mapRect.top)/vh;
+    mapImg.style.transform=`translateY(${mapOffset*-40}px) scale(1.1)`;
+  }
+}
+window.addEventListener('scroll',parallax,{passive:true});
+parallax();
+
+// ===== CAROUSEL — SCROLL HIJACK WITH FANNED CARDS =====
+const cardsData=[
+  {title:"Grand Format",sub:"Les récits immersifs qui donnent à voir AlUla.",link:"Découvrir",
+   shapes:[{t:"rect",w:140,h:180,x:-10,y:-20,rot:-6,bg:"#E8E0D0",o:.6},{t:"rect",w:140,h:180,x:0,y:-30,rot:-2,bg:"#D4C5A9",o:.7},{t:"rect",w:140,h:180,x:10,y:-40,rot:3,bg:"#C4956A",o:.4}]},
+  {title:"Focus",sub:"Regards croisés sur l'architecture et le patrimoine.",link:"Découvrir",
+   shapes:[{t:"semi",w:120,h:60,x:0,y:-30,bg:"#D4C5A9",o:.5},{t:"semi",w:140,h:50,x:-10,y:15,bg:"#C4956A",o:.45},{t:"semi",w:160,h:55,x:-20,y:50,bg:"#8A8578",o:.5}]},
+  {title:"Témoignages",sub:"Ceux qui font AlUla racontent leur vision.",link:"Découvrir",
+   shapes:[{t:"circle",s:100,x:-20,y:-20,bg:"#D4C5A9",o:.4},{t:"circle",s:100,x:30,y:0,bg:"#C4956A",o:.35},{t:"circle",s:60,x:10,y:30,bg:"#8A8578",o:.3}]},
+  {title:"Le Regard de",sub:"Entretiens avec les créateurs qui façonnent le futur.",link:"Découvrir",
+   shapes:[{t:"ring",s:130,x:-15,y:-25,bg:"#D4C5A9",o:.3,sw:16},{t:"circle",s:80,x:10,y:0,bg:"#C4956A",o:.25},{t:"circle",s:30,x:35,y:25,bg:"#8A8578",o:.5}]},
+  {title:"Les Brèves",sub:"L'actualité d'AlUla en quelques lignes.",link:"Découvrir",
+   shapes:[{t:"rect",w:160,h:8,x:-30,y:-40,bg:"#D4C5A9",o:.5,r:4},{t:"rect",w:120,h:8,x:-10,y:-15,bg:"#C4956A",o:.4,r:4},{t:"rect",w:140,h:8,x:-20,y:10,bg:"#D4C5A9",o:.35,r:4},{t:"rect",w:80,h:8,x:10,y:35,bg:"#8A8578",o:.3,r:4},{t:"rect",w:100,h:8,x:0,y:60,bg:"#D4C5A9",o:.25,r:4}]},
+];
+
+// Build cards
+const viewport=document.getElementById('carouselViewport');
+cardsData.forEach((card,i)=>{
+  const el=document.createElement('div');
+  el.className='carousel-card';
+  el.dataset.index=i;
+  // Illustration
+  let shapesHTML='';
+  card.shapes.forEach(sh=>{
+    const style=`position:absolute;opacity:${sh.o};`;
+    if(sh.t==='rect') shapesHTML+=`<div style="${style}width:${sh.w}px;height:${sh.h}px;transform:translate(${sh.x}px,${sh.y}px) rotate(${sh.rot||0}deg);background:${sh.bg};border-radius:${sh.r||4}px;"></div>`;
+    else if(sh.t==='circle') shapesHTML+=`<div style="${style}width:${sh.s}px;height:${sh.s}px;transform:translate(${sh.x}px,${sh.y}px);background:${sh.bg};border-radius:50%;"></div>`;
+    else if(sh.t==='semi') shapesHTML+=`<div style="${style}width:${sh.w}px;height:${sh.h}px;transform:translate(${sh.x}px,${sh.y}px);background:${sh.bg};border-radius:${sh.w}px ${sh.w}px 0 0;"></div>`;
+    else if(sh.t==='ring') shapesHTML+=`<div style="${style}width:${sh.s}px;height:${sh.s}px;transform:translate(${sh.x}px,${sh.y}px);border:${sh.sw}px solid ${sh.bg};border-radius:50%;background:transparent;"></div>`;
+  });
+  el.innerHTML=`
+    <div class="card-illu"><div style="position:relative;width:160px;height:200px;display:flex;align-items:center;justify-content:center">${shapesHTML}</div></div>
+    <div class="card-body">
+      <div class="card-title">${card.title}</div>
+      <div class="card-sub">${card.sub}</div>
+      <div class="card-link">→ ${card.link}</div>
+    </div>`;
+  viewport.appendChild(el);
+});
+
+const cards=document.querySelectorAll('.carousel-card');
+const pinSection=document.querySelector('.carousel-pin');
+const totalCards=cardsData.length;
+let activeCard=0;
+
+function layoutCards(progress){
+  // progress: 0 to 1 across the entire scroll hijack
+  // Map progress to active card index (with fractional for smooth transitions)
+  const cardProgress=progress*(totalCards-1);
+  const currentIdx=Math.min(Math.floor(cardProgress),totalCards-1);
+  const frac=cardProgress-currentIdx;
+
+  cards.forEach((card,i)=>{
+    // Offset from current center
+    let offset=i-cardProgress;
+
+    // Position
+    const x=offset*420;
+    const rotation=offset*8;
+    const scale=1-Math.abs(offset)*0.06;
+    const opacity=Math.max(0,1-Math.abs(offset)*0.35);
+    const z=100-Math.round(Math.abs(offset)*10);
+    const y=Math.abs(offset)*15;
+
+    card.style.transform=`translateX(${x}px) translateY(${y}px) rotate(${rotation}deg) scale(${scale})`;
+    card.style.opacity=opacity;
+    card.style.zIndex=z;
+
+    // Active state
+    const isActive=Math.abs(offset)<0.5;
+    card.classList.toggle('active',isActive);
+  });
+
+  // Update counter & progress bar
+  const displayIdx=Math.round(cardProgress);
+  document.getElementById('carCount').textContent=String(displayIdx+1).padStart(2,'0');
+  document.getElementById('carProgress').style.width=`${(displayIdx+1)/totalCards*100}%`;
+
+  // Update dots
+  document.querySelectorAll('#cDots .dot').forEach((d,j)=>{
+    d.classList.toggle('active',j===displayIdx);
+  });
+
+  activeCard=displayIdx;
+}
+
+// Scroll-driven animation
+function updateCarouselScroll(){
+  const rect=pinSection.getBoundingClientRect();
+  const stickyHeight=pinSection.offsetHeight-window.innerHeight;
+  const scrolled=-rect.top;
+  const progress=Math.max(0,Math.min(1,scrolled/stickyHeight));
+  layoutCards(progress);
+}
+window.addEventListener('scroll',updateCarouselScroll,{passive:true});
+layoutCards(0);
+
+// Also allow dot clicks to scroll to position
+document.querySelectorAll('#cDots .dot').forEach(d=>{
+  d.addEventListener('click',()=>{
+    const i=parseInt(d.dataset.i);
+    const stickyHeight=pinSection.offsetHeight-window.innerHeight;
+    const targetScroll=pinSection.offsetTop+(i/(totalCards-1))*stickyHeight;
+    window.scrollTo({top:targetScroll,behavior:'smooth'});
+  });
+});
+
+// Map pins
+document.querySelectorAll('.map-pin:not(.active)').forEach(p=>{
+  p.addEventListener('mouseenter',()=>{p.style.transform='scale(1.5)';p.style.background='#C4956A';p.style.borderColor='#fff';p.style.boxShadow='0 0 16px rgba(196,149,106,.5)'});
+  p.addEventListener('mouseleave',()=>{p.style.transform='';p.style.background='';p.style.borderColor='';p.style.boxShadow=''});
+});
+</script>
+</body>
+</html>
