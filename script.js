@@ -1,4 +1,19 @@
-// Navbar scroll + transparent on hero
+// === PERFORMANCE: requestAnimationFrame throttle ===
+let ticking=false;
+function onScroll(){
+  if(!ticking){
+    requestAnimationFrame(()=>{
+      updateNavbar();
+      parallax();
+      updateCarouselScroll();
+      ticking=false;
+    });
+    ticking=true;
+  }
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+
+// === NAVBAR ===
 const navbar=document.getElementById('navbar');
 const hero=document.querySelector('.hero');
 function updateNavbar(){
@@ -7,46 +22,47 @@ function updateNavbar(){
   navbar.classList.toggle('scrolled',scrollY>50);
   navbar.classList.toggle('transparent',scrollY<heroH-100);
 }
-window.addEventListener('scroll',updateNavbar);
 updateNavbar();
 
-// Reveal — all animated elements
+// === REVEAL (IntersectionObserver — no perf issue) ===
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -60px 0px'});
 document.querySelectorAll('.reveal,.reveal-children,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>obs.observe(el));
 
-// Parallax on scroll
+// === PARALLAX — cached selectors ===
+const heroBg=document.querySelector('.hero-bg img');
+const heroTitle=document.querySelector('.hero-title-wrap');
+const heroAlula=document.querySelector('.hero-alula');
+const parallaxImgs=document.querySelectorAll('.parallax-img img');
+const mapImg=document.querySelector('.map-terrain img');
+const mapSection=document.querySelector('.map-section');
+
 function parallax(){
   const scrollY=window.scrollY;
   const vh=window.innerHeight;
 
-  // Hero layers — different speeds
-  const heroBg=document.querySelector('.hero-bg img');
-  const heroTitle=document.querySelector('.hero-title-wrap');
-  const heroAlula=document.querySelector('.hero-alula');
-  if(heroBg) heroBg.style.transform=`translateY(${scrollY*0.35}px)`;
-  if(heroTitle) heroTitle.style.transform=`translate(-50%,-50%) translateY(${scrollY*-0.15}px)`;
-  if(heroAlula) heroAlula.style.transform=`translateY(${scrollY*-0.1}px)`;
+  // Hero layers
+  if(heroBg) heroBg.style.transform=`translate3d(0,${scrollY*0.35}px,0)`;
+  if(heroTitle) heroTitle.style.transform=`translate3d(-50%,-50%,0) translateY(${scrollY*-0.15}px)`;
+  if(heroAlula) heroAlula.style.transform=`translate3d(0,${scrollY*-0.1}px,0)`;
 
-  // Parallax images — subtle vertical shift
-  document.querySelectorAll('.parallax-img img').forEach(img=>{
+  // Parallax images
+  parallaxImgs.forEach(img=>{
     const rect=img.parentElement.getBoundingClientRect();
     const center=rect.top+rect.height/2;
     const offset=(center-vh/2)/vh;
-    img.style.transform=`translateY(${offset*-30}px) scale(1.08)`;
+    img.style.transform=`translate3d(0,${offset*-30}px,0) scale(1.08)`;
   });
 
-  // Map terrain parallax
-  const mapImg=document.querySelector('.map-terrain img');
-  if(mapImg){
-    const mapRect=document.querySelector('.map-section').getBoundingClientRect();
+  // Map terrain
+  if(mapImg&&mapSection){
+    const mapRect=mapSection.getBoundingClientRect();
     const mapOffset=(mapRect.top)/vh;
-    mapImg.style.transform=`translateY(${mapOffset*-40}px) scale(1.1)`;
+    mapImg.style.transform=`translate3d(0,${mapOffset*-40}px,0) scale(1.1)`;
   }
 }
-window.addEventListener('scroll',parallax,{passive:true});
 parallax();
 
-// ===== CAROUSEL — SCROLL HIJACK WITH FANNED CARDS =====
+// === CAROUSEL — SCROLL HIJACK ===
 const cardsData=[
   {title:"Grand Format",sub:"Les récits immersifs qui donnent à voir AlUla.",link:"Découvrir",
    shapes:[{t:"rect",w:140,h:180,x:-10,y:-20,rot:-6,bg:"#E8E0D0",o:.6},{t:"rect",w:140,h:180,x:0,y:-30,rot:-2,bg:"#D4C5A9",o:.7},{t:"rect",w:140,h:180,x:10,y:-40,rot:3,bg:"#C4956A",o:.4}]},
@@ -60,7 +76,6 @@ const cardsData=[
    shapes:[{t:"rect",w:160,h:8,x:-30,y:-40,bg:"#D4C5A9",o:.5,r:4},{t:"rect",w:120,h:8,x:-10,y:-15,bg:"#C4956A",o:.4,r:4},{t:"rect",w:140,h:8,x:-20,y:10,bg:"#D4C5A9",o:.35,r:4},{t:"rect",w:80,h:8,x:10,y:35,bg:"#8A8578",o:.3,r:4},{t:"rect",w:100,h:8,x:0,y:60,bg:"#D4C5A9",o:.25,r:4}]},
 ];
 
-// Build cards
 const viewport=document.getElementById('carouselViewport');
 cardsData.forEach((card,i)=>{
   const el=document.createElement('div');
@@ -91,7 +106,6 @@ let activeCard=0;
 
 function layoutCards(progress){
   const cardProgress=progress*(totalCards-1);
-  const currentIdx=Math.min(Math.floor(cardProgress),totalCards-1);
 
   cards.forEach((card,i)=>{
     let offset=i-cardProgress;
@@ -102,7 +116,7 @@ function layoutCards(progress){
     const z=100-Math.round(Math.abs(offset)*10);
     const y=Math.abs(offset)*15;
 
-    card.style.transform=`translateX(${x}px) translateY(${y}px) rotate(${rotation}deg) scale(${scale})`;
+    card.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rotation}deg) scale(${scale})`;
     card.style.opacity=opacity;
     card.style.zIndex=z;
 
@@ -121,7 +135,6 @@ function layoutCards(progress){
   activeCard=displayIdx;
 }
 
-// Scroll-driven animation
 function updateCarouselScroll(){
   const rect=pinSection.getBoundingClientRect();
   const stickyHeight=pinSection.offsetHeight-window.innerHeight;
@@ -129,7 +142,6 @@ function updateCarouselScroll(){
   const progress=Math.max(0,Math.min(1,scrolled/stickyHeight));
   layoutCards(progress);
 }
-window.addEventListener('scroll',updateCarouselScroll,{passive:true});
 layoutCards(0);
 
 // Dot clicks
