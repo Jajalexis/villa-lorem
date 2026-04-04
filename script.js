@@ -154,6 +154,31 @@ document.querySelectorAll('#cDots .dot').forEach(d=>{
   });
 });
 
+// === VERSION SELECTOR ACCORDION ===
+const vSelector=document.getElementById('versionSelector');
+const vBtn=document.getElementById('versionBtn');
+if(vSelector&&vBtn){
+  vBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    vSelector.classList.toggle('open');
+  });
+  document.addEventListener('click',e=>{
+    if(!vSelector.contains(e.target)) vSelector.classList.remove('open');
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape') vSelector.classList.remove('open');
+  });
+  document.querySelectorAll('.version-option').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      const href=opt.dataset.href;
+      if(href&&!opt.classList.contains('active')){
+        window.location.href=href;
+      }
+      vSelector.classList.remove('open');
+    });
+  });
+}
+
 // Map pins
 document.querySelectorAll('.map-pin:not(.active)').forEach(p=>{
   p.addEventListener('mouseenter',()=>{p.style.transform='scale(1.5)';p.style.background='#C4956A';p.style.borderColor='#fff';p.style.boxShadow='0 0 16px rgba(196,149,106,.5)'});

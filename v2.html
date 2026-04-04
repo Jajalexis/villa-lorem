@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Villa Lorem — V2 Nouvelle proposition</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <span class="nav-logo-main">VILLA</span>
+    <span class="nav-logo-accent">LOREM</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html#rubriques">Grand Format</a></li>
+    <li><a href="index.html#rubriques">Focus</a></li>
+    <li><a href="index.html#rubriques">T&eacute;moignages</a></li>
+    <li><a href="index.html#map">Le Regard de</a></li>
+    <li><a href="index.html#map">Les Br&egrave;ves</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-lang">FR / EN</span>
+    <a href="index.html#newsletter" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<!-- VERSION SELECTOR -->
+<div class="version-selector" id="versionSelector">
+  <div class="version-btn" id="versionBtn">
+    <span class="v-label">V2</span>
+    <span class="v-chevron">&rsaquo;</span>
+  </div>
+  <div class="version-dropdown">
+    <div class="version-option" data-version="v1" data-href="index.html">
+      <span class="v-dot"></span>
+      <span class="v-text">V1 — Villa Lorem</span>
+    </div>
+    <div class="version-option active" data-version="v2" data-href="v2.html">
+      <span class="v-dot"></span>
+      <span class="v-text">V2 — Nouvelle proposition</span>
+    </div>
+  </div>
+</div>
+
+<!-- EMPTY STATE -->
+<section class="v2-empty">
+  <div class="empty-label">VERSION 2</div>
+  <h2>Nouvelle proposition</h2>
+  <p>Cette version est en cours de conception. Le contenu sera disponible prochainement.</p>
+</section>
+
+</div>
+
+<script>
+// Version selector accordion
+const vSelector=document.getElementById('versionSelector');
+const vBtn=document.getElementById('versionBtn');
+if(vSelector&&vBtn){
+  vBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    vSelector.classList.toggle('open');
+  });
+  document.addEventListener('click',function(e){
+    if(!vSelector.contains(e.target)) vSelector.classList.remove('open');
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') vSelector.classList.remove('open');
+  });
+  document.querySelectorAll('.version-option').forEach(function(opt){
+    opt.addEventListener('click',function(){
+      var href=opt.dataset.href;
+      if(href&&!opt.classList.contains('active')){
+        window.location.href=href;
+      }
+      vSelector.classList.remove('open');
+    });
+  });
+}
+// Navbar stays in light mode (no hero on V2)
+</script>
+</body>
+</html>
