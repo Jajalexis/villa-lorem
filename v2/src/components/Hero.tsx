@@ -4,6 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import horizonImg from "/horizon.png";
+
 // Grand desert landscape — the reveal
 // Wide desert panorama — vast, distant horizon
 const DESERT_IMG =
@@ -192,15 +194,12 @@ export default function Hero() {
 
       {/* Title — centered on top of doors */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
-        <div ref={titleRef} className="will-change-transform text-center opacity-0 relative">
+        <div ref={titleRef} className="will-change-transform opacity-0 relative" style={{ width: "min(690px, 80vw)" }}>
           <img
-            src="/horizon.png"
-            alt="HORIZON"
-            className="w-[min(690px,80vw)] h-auto"
+            src={horizonImg}
+            alt="HORIZON ALULA"
+            className="w-full h-auto"
           />
-          <p className="absolute bottom-0 right-0 text-5xl lg:text-7xl font-thin tracking-[8px] text-white">
-            ALULA
-          </p>
         </div>
         <div ref={subtitleRef} className="mt-8 opacity-0">
           <div className="w-10 h-px bg-white/30 mx-auto mb-4" />
