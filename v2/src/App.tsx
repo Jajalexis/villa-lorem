@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { useLenis } from "./hooks/useLenis";
 import LoadingScreen from "./components/LoadingScreen";
 import Navbar from "./components/Navbar";
+import VersionSelector from "./components/VersionSelector";
 import Hero from "./components/Hero";
 import Collection from "./components/Collection";
 import ParallaxGallery from "./components/ParallaxGallery";
@@ -19,6 +20,7 @@ export default function App() {
     <>
       {!loaded && <LoadingScreen onComplete={onLoadComplete} />}
       <Navbar />
+      <VersionSelector />
       <main>
         <Hero />
         <Collection />
