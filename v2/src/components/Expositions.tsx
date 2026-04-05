@@ -76,7 +76,7 @@ function ExpoCard({ expo }: { expo: (typeof EXPOS)[0] }) {
 
 export default function Expositions() {
   return (
-    <section id="expositions" className="bg-bg py-32 lg:py-40">
+    <section id="expositions" className="bg-bg" style={{ paddingTop: 64, paddingBottom: 64 }}>
       <div className="max-w-[1440px] mx-auto" style={{ paddingLeft: 64, paddingRight: 64 }}>
         <span className="text-[11px] font-semibold tracking-[4px] text-accent uppercase">
           Expositions à venir
