@@ -62,13 +62,13 @@ export default function Collection() {
   return (
     <section ref={sectionRef} id="galerie" className="relative h-screen w-full overflow-hidden bg-bg">
       <div className="flex flex-col justify-center h-full">
-        <div className="px-6 lg:px-16 mb-8">
+        <div className="mb-8" style={{ paddingLeft: 64, paddingRight: 64 }}>
           <span className="text-[11px] font-semibold tracking-[4px] text-accent uppercase">
             La Collection
           </span>
         </div>
 
-        <div ref={trackRef} className="flex gap-8 px-6 lg:px-16 will-change-transform">
+        <div ref={trackRef} className="flex gap-8 will-change-transform" style={{ paddingLeft: 64, paddingRight: 64 }}>
           {WORKS.map((work, i) => (
             <div
               key={i}
@@ -97,7 +97,7 @@ export default function Collection() {
           ))}
         </div>
 
-        <div className="px-6 lg:px-16 mt-10">
+        <div className="mt-10" style={{ paddingLeft: 64, paddingRight: 64 }}>
           <div className="h-[2px] bg-stroke rounded-full overflow-hidden">
             <div
               ref={progressRef}

@@ -37,7 +37,7 @@ export default function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 pb-16">
+      <div className="max-w-[1440px] mx-auto pb-16" style={{ paddingLeft: 64, paddingRight: 64 }}>
         {/* VM watermark */}
         <div className="mb-12">
           <span className="font-display italic text-[120px] leading-none text-text-primary/[0.04] select-none">
