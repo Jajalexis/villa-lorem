@@ -83,9 +83,9 @@ export default function ParallaxGallery() {
 
   return (
     <section ref={sectionRef} className="relative min-h-[250vh] bg-bg overflow-hidden">
-      <div className="flex h-full max-w-[1440px] mx-auto px-6 lg:px-16">
+      <div className="flex h-full max-w-[1440px] mx-auto">
         {/* Left — pinned text — all 3 visible, active at 100%, others at 30% */}
-        <div ref={textRef} className="w-[42%] h-screen flex items-center px-8 lg:px-16">
+        <div ref={textRef} className="w-[42%] h-screen flex items-center pl-16 pr-8">
           <div className="flex flex-col gap-10">
             {SALLES.map((salle, i) => (
               <div
