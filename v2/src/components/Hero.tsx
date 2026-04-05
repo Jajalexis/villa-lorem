@@ -194,15 +194,12 @@ export default function Hero() {
 
       {/* Title — centered on top of doors */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
-        <div ref={titleRef} className="will-change-transform opacity-0 relative" style={{ width: "min(690px, 80vw)" }}>
+        <div ref={titleRef} className="will-change-transform opacity-0" style={{ width: "min(690px, 80vw)", height: "auto" }}>
           <img
             src={horizonImg}
-            alt="HORIZON"
-            className="w-full h-auto block"
+            alt="HORIZON ALULA"
+            className="w-full h-auto"
           />
-          <p className="absolute right-0 font-thin text-[72px] tracking-[8px] text-white leading-none" style={{ bottom: "-24px" }}>
-            ALULA
-          </p>
         </div>
         <div ref={subtitleRef} className="mt-8 opacity-0">
           <div className="w-10 h-px bg-white/30 mx-auto mb-4" />

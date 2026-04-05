@@ -116,7 +116,7 @@ export default function ParallaxGallery() {
         </div>
 
         {/* Right — parallax photo grid — fixed position, only vertical movement */}
-        <div className="w-[58%] flex gap-5 pt-24 overflow-hidden">
+        <div className="w-[58%] flex gap-5 pt-24 pr-16 overflow-hidden">
           <div ref={colLeftRef} className="flex flex-col gap-6 will-change-transform flex-1">
             {PHOTOS_LEFT.map((src, i) => (
               <div
