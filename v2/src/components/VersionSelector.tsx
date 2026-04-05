@@ -19,7 +19,7 @@ export default function VersionSelector() {
         <span className="vs__chevron">›</span>
       </button>
       <div className="vs__dropdown">
-        <a href="../v1/index.html" className="vs__option">
+        <a href="../../v1/index.html" className="vs__option">
           <span className="vs__dot" />
           <span className="vs__text">V1 — Villa Lorem</span>
         </a>
