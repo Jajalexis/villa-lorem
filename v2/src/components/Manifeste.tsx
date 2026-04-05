@@ -21,7 +21,7 @@ function StatItem({ target, label, format }: (typeof STATS)[0]) {
 
 export default function Manifeste() {
   return (
-    <section className="bg-surface py-40 lg:py-56">
+    <section className="bg-surface" style={{ paddingTop: 128, paddingBottom: 128 }}>
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-20 lg:gap-32 items-start" style={{ paddingLeft: 64, paddingRight: 64 }}>
         {/* Quote */}
         <div className="lg:w-1/2">
