@@ -85,7 +85,7 @@ export default function ParallaxGallery() {
     <section ref={sectionRef} className="relative min-h-[250vh] bg-bg overflow-hidden">
       <div className="flex h-full max-w-[1440px] mx-auto">
         {/* Left — pinned text — all 3 visible, active at 100%, others at 30% */}
-        <div ref={textRef} className="w-[42%] h-screen flex items-center pl-16 pr-8">
+        <div ref={textRef} className="w-[42%] h-screen flex items-center" style={{ paddingLeft: "64px", paddingRight: "32px" }}>
           <div className="flex flex-col gap-10">
             {SALLES.map((salle, i) => (
               <div
@@ -116,7 +116,7 @@ export default function ParallaxGallery() {
         </div>
 
         {/* Right — parallax photo grid — fixed position, only vertical movement */}
-        <div className="w-[58%] flex gap-5 pt-24 pr-16 overflow-hidden">
+        <div className="w-[58%] flex gap-5 pt-24 overflow-hidden" style={{ paddingRight: "64px" }}>
           <div ref={colLeftRef} className="flex flex-col gap-6 will-change-transform flex-1">
             {PHOTOS_LEFT.map((src, i) => (
               <div
